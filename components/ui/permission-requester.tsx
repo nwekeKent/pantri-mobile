@@ -1,10 +1,28 @@
 import * as React from "react";
 import { Platform, Linking } from "react-native";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "./dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "./dialog";
 import { Button } from "./button";
 import { Text } from "./text";
-import { AlertCircle, Camera as CameraIcon, MapPin, Image, Users, Bell } from "lucide-react-native";
+import {
+  AlertCircle,
+  Camera as CameraIcon,
+  MapPin,
+  Image,
+  Users,
+  Bell,
+} from "lucide-react-native";
 import { iconWithClassName } from "./lib/icons/icon-with-classname";
+import * as Location from "expo-location";
+import * as MediaLibrary from "expo-media-library";
+import * as Contacts from "expo-contacts";
+import * as Notifications from "expo-notifications";
 
 const AlertCircleIcon = iconWithClassName(AlertCircle);
 const CameraIconStyled = iconWithClassName(CameraIcon);
@@ -13,9 +31,9 @@ const ImageIcon = iconWithClassName(Image);
 const UsersIcon = iconWithClassName(Users);
 const BellIcon = iconWithClassName(Bell);
 
-export type PermissionType = 
+export type PermissionType =
   | "camera"
-  | "location" 
+  | "location"
   | "locationForeground"
   | "mediaLibrary"
   | "contacts"
@@ -63,57 +81,49 @@ const permissionInfoMap: Record<PermissionType, PermissionInfo> = {
   },
 };
 
-async function getPermissionAsync(permission: PermissionType) {
+function getPermissionAsync(permission: PermissionType) {
   if (permission === "location") {
-    const Location = await import("expo-location");
     return Location.getBackgroundPermissionsAsync();
   }
   if (permission === "locationForeground") {
-    const Location = await import("expo-location");
     return Location.getForegroundPermissionsAsync();
   }
   if (permission === "mediaLibrary") {
-    const MediaLibrary = await import("expo-media-library");
     return MediaLibrary.getPermissionsAsync();
   }
   if (permission === "contacts") {
-    const Contacts = await import("expo-contacts");
     return Contacts.getPermissionsAsync();
   }
   if (permission === "notifications") {
-    const Notifications = await import("expo-notifications");
     return Notifications.getPermissionsAsync();
   }
 
   return null;
 }
 
-async function requestPermissionAsync(permission: PermissionType) {
+function requestPermissionAsync(permission: PermissionType) {
   if (permission === "location") {
-    const Location = await import("expo-location");
     return Location.requestBackgroundPermissionsAsync();
   }
   if (permission === "locationForeground") {
-    const Location = await import("expo-location");
     return Location.requestForegroundPermissionsAsync();
   }
   if (permission === "mediaLibrary") {
-    const MediaLibrary = await import("expo-media-library");
     return MediaLibrary.requestPermissionsAsync();
   }
   if (permission === "contacts") {
-    const Contacts = await import("expo-contacts");
     return Contacts.requestPermissionsAsync();
   }
   if (permission === "notifications") {
-    const Notifications = await import("expo-notifications");
     return Notifications.requestPermissionsAsync();
   }
 
   return null;
 }
 
-function normalizePermissionStatus(status: PermissionResult["status"]): PermissionStatus {
+function normalizePermissionStatus(
+  status: PermissionResult["status"],
+): PermissionStatus {
   return status === "granted" || status === "denied" ? status : "undetermined";
 }
 
@@ -133,14 +143,16 @@ export function PermissionRequester({
   onPermissionGranted,
   onPermissionDenied,
 }: PermissionRequesterProps) {
-  const [status, setStatus] = React.useState<"undetermined" | "granted" | "denied">("undetermined");
+  const [status, setStatus] = React.useState<
+    "undetermined" | "granted" | "denied"
+  >("undetermined");
   const [showDialog, setShowDialog] = React.useState(false);
   const permissionInfo = permissionInfoMap[permission];
 
   const checkPermission = React.useCallback(async () => {
     try {
       const permissionStatus = await getPermissionAsync(permission);
-      
+
       if (permissionStatus) {
         setStatus(normalizePermissionStatus(permissionStatus.status));
       }
@@ -176,11 +188,11 @@ export function PermissionRequester({
       }
 
       const permissionResult = await requestPermissionAsync(permission);
-      
+
       if (permissionResult) {
         const newStatus = normalizePermissionStatus(permissionResult.status);
         setStatus(newStatus);
-        
+
         if (newStatus === "granted") {
           onPermissionGranted?.();
         } else if (newStatus === "denied") {
@@ -200,7 +212,7 @@ export function PermissionRequester({
   return (
     <>
       {children({ status, requestPermission })}
-      
+
       <Dialog open={showDialog} onOpenChange={setShowDialog}>
         <DialogContent>
           <DialogHeader>
@@ -208,11 +220,14 @@ export function PermissionRequester({
               <AlertCircleIcon className="h-8 w-8 text-destructive" />
             </DialogTitle>
             <DialogTitle>
-              <Text variant="h4" className="text-center">Permission Required</Text>
+              <Text variant="h4" className="text-center">
+                Permission Required
+              </Text>
             </DialogTitle>
             <DialogDescription>
               <Text variant="muted" className="text-center">
-                {permissionInfo.title} has been denied. Please enable it in your device settings to continue.
+                {permissionInfo.title} has been denied. Please enable it in your
+                device settings to continue.
               </Text>
             </DialogDescription>
           </DialogHeader>
@@ -236,12 +251,14 @@ export function PermissionRequester({
 
 // Convenience hook for permissions
 export function usePermission(permission: PermissionType) {
-  const [status, setStatus] = React.useState<"undetermined" | "granted" | "denied">("undetermined");
+  const [status, setStatus] = React.useState<
+    "undetermined" | "granted" | "denied"
+  >("undetermined");
 
   const checkPermission = React.useCallback(async () => {
     try {
       const permissionStatus = await getPermissionAsync(permission);
-      
+
       if (permissionStatus) {
         setStatus(normalizePermissionStatus(permissionStatus.status));
       }
@@ -267,13 +284,13 @@ export function usePermission(permission: PermissionType) {
       }
 
       const permissionResult = await requestPermissionAsync(permission);
-      
+
       if (permissionResult) {
         const newStatus = normalizePermissionStatus(permissionResult.status);
         setStatus(newStatus);
         return newStatus === "granted";
       }
-      
+
       return false;
     } catch (error) {
       console.warn("Unable to request permission:", error);
