@@ -111,9 +111,7 @@ npx eas build --profile development --platform android
 
 2. **Install dependencies**
    ```bash
-   npm install
-   # or
-   yarn install
+   pnpm install
    ```
 
 3. **Start the development server**
