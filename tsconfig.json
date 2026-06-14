@@ -12,6 +12,7 @@
     "allowSyntheticDefaultImports": true,
     "noEmit": true,
     "moduleResolution": "bundler",
+    "types": ["@hugeicons/core-free-icons", "@hugeicons/react-native"],
     "paths": {
       "@/*": ["./*"]
     }

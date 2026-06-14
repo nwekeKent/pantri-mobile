@@ -14,41 +14,40 @@ interface GeneralErrorProps {
   retryText?: string;
 }
 
-export function GeneralError({ 
+export function GeneralError({
   title = "Something went wrong",
   message = "We're having trouble loading this content. Please try again.",
   showHomeButton = true,
   onRetry,
-  retryText = "Try Again"
+  retryText = "Try Again",
 }: GeneralErrorProps) {
   const handleGoHome = () => {
-    router.replace("/");
+    router.replace("/(tabs)/pantry");
   };
 
   return (
     <SafeAreaView className="flex-1 bg-background">
-      <ScrollView 
+      <ScrollView
         contentContainerClassName="flex-1 p-6"
         showsVerticalScrollIndicator={false}
       >
         <View className="flex-1 items-center justify-center">
           <AlertCircleIcon className="w-20 h-20 text-muted-foreground mb-6" />
-          
+
           <Text variant="h2" className="text-center mb-4">
             {title}
           </Text>
-          
-          <Text variant="p" className="text-center text-muted-foreground mb-8 max-w-xs">
+
+          <Text
+            variant="p"
+            className="text-center text-muted-foreground mb-8 max-w-xs"
+          >
             {message}
           </Text>
 
           <View className="gap-3 w-full max-w-xs">
             {onRetry && (
-              <Button
-                onPress={onRetry}
-                size="lg"
-                className="w-full"
-              >
+              <Button onPress={onRetry} size="lg" className="w-full">
                 <Text>{retryText}</Text>
               </Button>
             )}

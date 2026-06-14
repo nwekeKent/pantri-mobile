@@ -1,22 +1,14 @@
 import * as React from "react";
-import { 
+import {
   Modal,
   View,
   Pressable,
-  type ModalProps,
   Platform,
   KeyboardAvoidingView,
 } from "react-native";
 import { cn } from "./utils/cn";
-import { X } from "lucide-react-native";
-import { iconWithClassName } from "./lib/icons/icon-with-classname";
-
-const XIcon = iconWithClassName(X);
-
-interface DialogProps extends Omit<ModalProps, "visible"> {
-  open?: boolean;
-  onOpenChange?: (open: boolean) => void;
-}
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 
 const DialogContext = React.createContext<{
   open: boolean;
@@ -26,7 +18,11 @@ const DialogContext = React.createContext<{
   onOpenChange: () => {},
 });
 
-const Dialog = ({ children, open = false, onOpenChange = () => {} }: { 
+const Dialog = ({
+  children,
+  open = false,
+  onOpenChange = () => {},
+}: {
   children: React.ReactNode;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -45,25 +41,24 @@ const DialogTrigger = React.forwardRef<
   }
 >(({ onPress, asChild, children, ...props }, ref) => {
   const { onOpenChange } = React.useContext(DialogContext);
-  
-  const handlePress = React.useCallback((e?: any) => {
-    onPress?.(e);
-    onOpenChange(true);
-  }, [onPress, onOpenChange]);
-  
+
+  const handlePress = React.useCallback(
+    (e?: any) => {
+      onPress?.(e);
+      onOpenChange(true);
+    },
+    [onPress, onOpenChange],
+  );
+
   // If asChild, clone the child element and add onPress
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(children as any, {
       onPress: handlePress,
     });
   }
-  
+
   return (
-    <Pressable
-      ref={ref}
-      onPress={handlePress}
-      {...props}
-    >
+    <Pressable ref={ref} onPress={handlePress} {...props}>
       {children}
     </Pressable>
   );
@@ -90,7 +85,7 @@ const DialogContent = React.forwardRef<
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex-1"
       >
-        <Pressable 
+        <Pressable
           className="flex-1 justify-center items-center bg-foreground/50 p-4"
           onPress={() => onOpenChange(false)}
         >
@@ -103,7 +98,7 @@ const DialogContent = React.forwardRef<
                 ios: "shadow-foreground/25",
                 android: "elevation-24",
               }),
-              className
+              className,
             )}
             onPress={(e) => e.stopPropagation()}
             {...props}
@@ -113,7 +108,11 @@ const DialogContent = React.forwardRef<
                 onPress={() => onOpenChange(false)}
                 className="absolute right-4 top-4 rounded-sm opacity-70 web:hover:opacity-100"
               >
-                <XIcon className="h-4 w-4 text-foreground" />
+                <HugeiconsIcon
+                  icon={Cancel01Icon}
+                  size={16}
+                  className="text-foreground"
+                />
               </Pressable>
             )}
             {children}
@@ -155,7 +154,10 @@ const DialogTitle = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <View
     ref={ref}
-    className={cn("text-lg font-semibold leading-none tracking-tight", className)}
+    className={cn(
+      "text-lg font-semibold leading-none tracking-tight",
+      className,
+    )}
     {...props}
   />
 ));

@@ -1,34 +1,49 @@
+import React from "react";
+import { HugeiconsIcon } from "@hugeicons/react-native";
 import {
-  AlertCircle,
-  ArrowUpDown,
-  Bell,
-  Check,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ChevronUp,
-  Home,
-  Menu,
-  RefreshCw,
-  Settings,
-  User,
-  WifiOff,
-  X,
-} from "lucide-react-native";
-import { iconWithClassName } from "./icon-with-classname";
+  AlertCircle as AlertCircleSvg,
+  ArrowUpDown as ArrowUpDownSvg,
+  Bell as BellSvg,
+  Cancel01Icon as CancelSvg,
+  CheckIcon as CheckSvg,
+  ChevronDown as ChevronDownSvg,
+  ChevronLeft as ChevronLeftSvg,
+  ChevronRight as ChevronRightSvg,
+  ChevronUp as ChevronUpSvg,
+  Home01Icon as HomeSvg,
+  Menu01Icon as MenuSvg,
+  Refresh01Icon as RefreshSvg,
+  Settings01Icon as SettingsSvg,
+  UserIcon as UserSvg,
+  WifiOff01Icon as WifiOffSvg,
+} from "@hugeicons/core-free-icons";
 
-export const AlertCircleIcon = iconWithClassName(AlertCircle);
-export const ArrowUpDownIcon = iconWithClassName(ArrowUpDown);
-export const BellIcon = iconWithClassName(Bell);
-export const CheckIcon = iconWithClassName(Check);
-export const ChevronDownIcon = iconWithClassName(ChevronDown);
-export const ChevronLeftIcon = iconWithClassName(ChevronLeft);
-export const ChevronRightIcon = iconWithClassName(ChevronRight);
-export const ChevronUpIcon = iconWithClassName(ChevronUp);
-export const HomeIcon = iconWithClassName(Home);
-export const MenuIcon = iconWithClassName(Menu);
-export const RefreshCwIcon = iconWithClassName(RefreshCw);
-export const SettingsIcon = iconWithClassName(Settings);
-export const UserIcon = iconWithClassName(User);
-export const WifiOffIcon = iconWithClassName(WifiOff);
-export const XIcon = iconWithClassName(X);
+type IconProps = {
+  size?: number;
+  color?: string;
+  className?: string;
+};
+
+function createIcon(icon: any) {
+  const IconComponent = ({ size = 24, color = "currentColor", className }: IconProps) => {
+    return React.createElement(HugeiconsIcon, { icon, size, color, className });
+  };
+  IconComponent.displayName = `Icon(${icon.name || "Unknown"})`;
+  return IconComponent;
+}
+
+export const AlertCircleIcon = createIcon(AlertCircleSvg);
+export const ArrowUpDownIcon = createIcon(ArrowUpDownSvg);
+export const BellIcon = createIcon(BellSvg);
+export const CheckIcon = createIcon(CheckSvg);
+export const ChevronDownIcon = createIcon(ChevronDownSvg);
+export const ChevronLeftIcon = createIcon(ChevronLeftSvg);
+export const ChevronRightIcon = createIcon(ChevronRightSvg);
+export const ChevronUpIcon = createIcon(ChevronUpSvg);
+export const HomeIcon = createIcon(HomeSvg);
+export const MenuIcon = createIcon(MenuSvg);
+export const RefreshCwIcon = createIcon(RefreshSvg);
+export const SettingsIcon = createIcon(SettingsSvg);
+export const UserIcon = createIcon(UserSvg);
+export const WifiOffIcon = createIcon(WifiOffSvg);
+export const XIcon = createIcon(CancelSvg);

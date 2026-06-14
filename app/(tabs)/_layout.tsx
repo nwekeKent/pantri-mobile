@@ -1,9 +1,15 @@
 import { Tabs } from "expo-router/js-tabs";
 import React from "react";
 import { Platform } from "react-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import {
+  FridgeIcon,
+  ClipboardIcon,
+  BookOpen01Icon as BookOpenIcon,
+  Settings01Icon as SettingsIcon,
+} from "@hugeicons/core-free-icons";
 
 import { HapticTab } from "@/components/HapticTab";
-import { IconSymbol } from "@/components/ui/IconSymbol";
 import TabBarBackground from "@/components/ui/TabBarBackground";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
@@ -21,7 +27,6 @@ export default function TabLayout() {
         tabBarBackground: TabBarBackground,
         tabBarStyle: Platform.select({
           ios: {
-            // Use a transparent background on iOS to show the blur effect
             position: "absolute",
           },
           default: {},
@@ -29,39 +34,38 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="pantry"
         options={{
-          title: "Home",
+          title: "Pantry",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={22} name="house.fill" color={color} />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="menu-demo"
-        options={{
-          title: "Menu",
-          tabBarIcon: ({ color }) => (
-            <IconSymbol size={22} name="menucard" color={color} />
+            <HugeiconsIcon icon={FridgeIcon} size={22} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="permissions-demo"
+        name="lists"
         options={{
-          title: "Permissions",
+          title: "Lists",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={22} name="checkmark.shield.fill" color={color} />
+            <HugeiconsIcon icon={ClipboardIcon} size={22} color={color} />
           ),
         }}
       />
       <Tabs.Screen
-        name="error-demo"
+        name="recipes"
         options={{
-          title: "Errors",
+          title: "Recipes",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={22} name="exclamationmark.triangle.fill" color={color} />
+            <HugeiconsIcon icon={BookOpenIcon} size={22} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color }) => (
+            <HugeiconsIcon icon={SettingsIcon} size={22} color={color} />
           ),
         }}
       />

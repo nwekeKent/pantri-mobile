@@ -8,12 +8,16 @@ export default function NotFoundScreen() {
       <Stack.Screen options={{ title: "Oops!" }} />
       <SafeAreaView className="flex-1 bg-background">
         <View className="flex-1 items-center justify-center p-5">
-          <Text variant="h1" className="mb-4">404</Text>
-          <Text variant="h3" className="mb-2">Page not found</Text>
+          <Text variant="h1" className="mb-4">
+            404
+          </Text>
+          <Text variant="h3" className="mb-2">
+            Page not found
+          </Text>
           <Text variant="muted" className="text-center mb-8">
             This screen does not exist.
           </Text>
-          <Link href="/" asChild>
+          <Link href="/(tabs)/pantry" asChild>
             <Button variant="default">
               <Text>Go to home screen</Text>
             </Button>

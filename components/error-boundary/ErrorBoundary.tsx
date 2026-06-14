@@ -3,7 +3,11 @@ import { View, ScrollView, Pressable } from "react-native";
 import { Text } from "@/components/ui/text";
 import { Button } from "@/components/ui/button";
 import { SafeAreaView } from "@/components/ui/safe-area-view";
-import { AlertCircleIcon, RefreshCwIcon, HomeIcon } from "@/components/ui/lib/icons";
+import {
+  AlertCircleIcon,
+  RefreshCwIcon,
+  HomeIcon,
+} from "@/components/ui/lib/icons";
 import { router } from "expo-router";
 
 interface Props {
@@ -38,12 +42,12 @@ export class ErrorBoundary extends Component<Props, State> {
 
   handleReload = () => {
     this.resetError();
-    router.replace("/");
+    router.replace("/(tabs)/pantry");
   };
 
   handleGoHome = () => {
     this.resetError();
-    router.replace("/");
+    router.replace("/(tabs)/pantry");
   };
 
   render() {
@@ -54,19 +58,23 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <SafeAreaView className="flex-1 bg-background">
-          <ScrollView 
+          <ScrollView
             contentContainerClassName="flex-1 p-6"
             showsVerticalScrollIndicator={false}
           >
             <View className="flex-1 items-center justify-center">
               <AlertCircleIcon className="w-20 h-20 text-destructive mb-6" />
-              
+
               <Text variant="h2" className="text-center mb-4">
                 Oops! Something went wrong
               </Text>
-              
-              <Text variant="p" className="text-center text-muted-foreground mb-8 max-w-xs">
-                We encountered an unexpected error. Don&apos;t worry, you can try reloading the app or go back to home.
+
+              <Text
+                variant="p"
+                className="text-center text-muted-foreground mb-8 max-w-xs"
+              >
+                We encountered an unexpected error. Don&apos;t worry, you can
+                try reloading the app or go back to home.
               </Text>
 
               <View className="gap-3 w-full max-w-xs">
@@ -99,7 +107,10 @@ export class ErrorBoundary extends Component<Props, State> {
                     {this.state.error.message}
                   </Text>
                   {this.state.errorInfo && (
-                    <Text variant="code" className="text-xs text-muted-foreground mt-2">
+                    <Text
+                      variant="code"
+                      className="text-xs text-muted-foreground mt-2"
+                    >
                       {this.state.errorInfo.componentStack?.slice(0, 200)}...
                     </Text>
                   )}

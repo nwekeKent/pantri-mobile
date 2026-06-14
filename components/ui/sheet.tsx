@@ -1,16 +1,9 @@
 import * as React from "react";
-import {
-  Modal,
-  Pressable,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Modal, Pressable, useWindowDimensions, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { X } from "lucide-react-native";
-import { iconWithClassName } from "./lib/icons/icon-with-classname";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import { Cancel01Icon } from "@hugeicons/core-free-icons";
 import { cn } from "./utils/cn";
-
-const XIcon = iconWithClassName(X);
 
 interface SheetContextType {
   open: boolean;
@@ -28,7 +21,11 @@ interface SheetProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-const Sheet = ({ children, open = false, onOpenChange = () => {} }: SheetProps) => {
+const Sheet = ({
+  children,
+  open = false,
+  onOpenChange = () => {},
+}: SheetProps) => {
   return (
     <SheetContext.Provider value={{ open, onOpenChange }}>
       {children}
@@ -45,7 +42,7 @@ const SheetTrigger = React.forwardRef<
   const { onOpenChange } = React.useContext(SheetContext);
 
   if (asChild && React.isValidElement(children)) {
-    const childProps = children.props as any || {};
+    const childProps = (children.props as any) || {};
     return React.cloneElement(children, {
       ...childProps,
       onPress: (e: any) => {
@@ -103,7 +100,7 @@ const SheetContent = React.forwardRef<
           ref={ref}
           className={cn(
             "rounded-t-3xl border border-border bg-background px-4 pb-6 pt-4",
-            className
+            className,
           )}
           style={{
             maxHeight: height * 0.9,
@@ -116,7 +113,11 @@ const SheetContent = React.forwardRef<
               onPress={() => onOpenChange(false)}
               className="absolute right-4 top-4 z-10 rounded-sm opacity-70"
             >
-              <XIcon className="h-5 w-5 text-foreground" />
+              <HugeiconsIcon
+                icon={Cancel01Icon}
+                size={20}
+                className="text-foreground"
+              />
             </Pressable>
           )}
           {children}

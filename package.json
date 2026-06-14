@@ -37,6 +37,8 @@
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
     "@gorhom/bottom-sheet": "^5.2.5",
+    "@hugeicons/core-free-icons": "^4.2.0",
+    "@hugeicons/react-native": "^1.0.13",
     "@react-native-community/netinfo": "12.0.1",
     "babel-preset-expo": "~56.0.0",
     "class-variance-authority": "^0.7.1",
@@ -59,7 +61,6 @@
     "expo-status-bar": "~56.0.4",
     "expo-symbols": "~56.0.6",
     "expo-system-ui": "~56.0.5",
-    "lucide-react-native": "^0.542.0",
     "nativewind": "^4.1.23",
     "react": "19.2.3",
     "react-dom": "19.2.3",

@@ -7,15 +7,10 @@ import {
   Platform,
   ScrollView,
 } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { cn } from "./utils/cn";
-import { Menu, X } from "lucide-react-native";
-import { iconWithClassName } from "./lib/icons/icon-with-classname";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import { Menu01Icon, Cancel01Icon } from "@hugeicons/core-free-icons";
 import { SafeAreaView } from "./safe-area-view";
-import { Text } from "./text";
-
-const MenuIcon = iconWithClassName(Menu);
-const XIcon = iconWithClassName(X);
 
 interface DrawerContextType {
   open: boolean;
@@ -40,7 +35,7 @@ const Drawer = ({
   children,
   open = false,
   onOpenChange = () => {},
-  side = "left"
+  side = "left",
 }: DrawerProps) => {
   return (
     <DrawerContext.Provider value={{ open, onOpenChange, side }}>
@@ -58,7 +53,7 @@ const DrawerTrigger = React.forwardRef<
   const { onOpenChange } = React.useContext(DrawerContext);
 
   if (asChild && React.isValidElement(children)) {
-    const childProps = children.props as any || {};
+    const childProps = (children.props as any) || {};
     return React.cloneElement(children, {
       ...childProps,
       onPress: (e: any) => {
@@ -72,20 +67,31 @@ const DrawerTrigger = React.forwardRef<
   return (
     <Pressable
       ref={ref}
-      className={cn("p-2 rounded-md bg-card border border-border active:bg-accent", className)}
+      className={cn(
+        "p-2 rounded-md bg-card border border-border active:bg-accent",
+        className,
+      )}
       onPress={(e) => {
         onPress?.(e);
         onOpenChange(true);
       }}
       {...props}
     >
-      {children || <MenuIcon className="h-6 w-6 text-card-foreground" />}
+      {children || (
+        <HugeiconsIcon
+          icon={Menu01Icon}
+          size={24}
+          className="text-card-foreground"
+        />
+      )}
     </Pressable>
   );
 });
 DrawerTrigger.displayName = "DrawerTrigger";
 
-interface DrawerContentProps extends React.ComponentPropsWithoutRef<typeof View> {
+interface DrawerContentProps extends React.ComponentPropsWithoutRef<
+  typeof View
+> {
   children: React.ReactNode;
   className?: string;
 }
@@ -134,13 +140,11 @@ const DrawerContent = React.forwardRef<
                 ios: "shadow-lg shadow-foreground/25",
                 android: "elevation-16",
               }),
-              className
+              className,
             )}
             {...props}
           >
-            <ScrollView className="flex-1">
-              {children}
-            </ScrollView>
+            <ScrollView className="flex-1">{children}</ScrollView>
           </SafeAreaView>
         </View>
       </View>
@@ -158,17 +162,19 @@ const DrawerHeader = React.forwardRef<
   return (
     <View
       ref={ref}
-      className={cn("flex-row items-center justify-between p-4 border-b border-border", className)}
+      className={cn(
+        "flex-row items-center justify-between p-4 border-b border-border",
+        className,
+      )}
       {...props}
     >
-      <View className="flex-1">
-        {children}
-      </View>
-      <Pressable
-        onPress={() => onOpenChange(false)}
-        className="p-2 ml-2"
-      >
-        <XIcon className="h-5 w-5 text-foreground" />
+      <View className="flex-1">{children}</View>
+      <Pressable onPress={() => onOpenChange(false)} className="p-2 ml-2">
+        <HugeiconsIcon
+          icon={Cancel01Icon}
+          size={20}
+          className="text-foreground"
+        />
       </Pressable>
     </View>
   );
@@ -200,7 +206,7 @@ const DrawerItem = React.forwardRef<
       ref={ref}
       className={cn(
         "flex-row items-center px-4 py-3 active:bg-muted",
-        className
+        className,
       )}
       onPress={(e) => {
         onPress?.(e);
@@ -208,12 +214,8 @@ const DrawerItem = React.forwardRef<
       }}
       {...props}
     >
-      {icon && (
-        <View className="w-8">
-          {icon}
-        </View>
-      )}
-      {typeof children === 'function'
+      {icon && <View className="w-8">{icon}</View>}
+      {typeof children === "function"
         ? (children as any)({ pressed: false })
         : children}
     </Pressable>
@@ -233,40 +235,6 @@ const DrawerSeparator = React.forwardRef<
 ));
 DrawerSeparator.displayName = "DrawerSeparator";
 
-// Hamburger menu button component for easy positioning
-const HamburgerMenu = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  React.ComponentPropsWithoutRef<typeof Pressable> & {
-    position?: "top-left" | "top-right";
-  }
->(({ className, position = "top-left", ...props }, ref) => {
-  const { top } = useSafeAreaInsets();
-  const positionClasses = {
-    "top-left": "left-4",
-    "top-right": "right-4",
-  };
-
-  return (
-    <Pressable
-      ref={ref}
-      className={cn(
-        "absolute z-50 p-3 bg-card rounded-lg border border-border active:bg-accent",
-        Platform.select({
-          ios: "shadow-sm shadow-foreground/25",
-          android: "elevation-4",
-        }),
-        positionClasses[position],
-        className
-      )}
-      style={{ top: top + 8 }}
-      {...props}
-    >
-      <MenuIcon className="h-6 w-6 text-card-foreground" />
-    </Pressable>
-  );
-});
-HamburgerMenu.displayName = "HamburgerMenu";
-
 export {
   Drawer,
   DrawerTrigger,
@@ -275,5 +243,4 @@ export {
   DrawerTitle,
   DrawerItem,
   DrawerSeparator,
-  HamburgerMenu,
 };

@@ -10,26 +10,19 @@ import {
 } from "./dialog";
 import { Button } from "./button";
 import { Text } from "./text";
+import { HugeiconsIcon } from "@hugeicons/react-native";
 import {
-  AlertCircle,
-  Camera as CameraIcon,
-  MapPin,
-  Image,
-  Users,
-  Bell,
-} from "lucide-react-native";
-import { iconWithClassName } from "./lib/icons/icon-with-classname";
+  AlertCircleIcon as AlertCircleSvg,
+  Camera01Icon,
+  MapPinIcon as MapPinSvg,
+  Image01Icon,
+  GroupIcon,
+  BellIcon as BellSvg,
+} from "@hugeicons/core-free-icons";
 import * as Location from "expo-location";
 import * as MediaLibrary from "expo-media-library";
 import * as Contacts from "expo-contacts";
 import * as Notifications from "expo-notifications";
-
-const AlertCircleIcon = iconWithClassName(AlertCircle);
-const CameraIconStyled = iconWithClassName(CameraIcon);
-const MapPinIcon = iconWithClassName(MapPin);
-const ImageIcon = iconWithClassName(Image);
-const UsersIcon = iconWithClassName(Users);
-const BellIcon = iconWithClassName(Bell);
 
 export type PermissionType =
   | "camera"
@@ -52,32 +45,36 @@ const permissionInfoMap: Record<PermissionType, PermissionInfo> = {
   camera: {
     title: "Camera Access",
     description: "Allow the app to take photos and record videos",
-    icon: <CameraIconStyled className="h-12 w-12 text-primary" />,
+    icon: (
+      <HugeiconsIcon icon={Camera01Icon} size={48} className="text-primary" />
+    ),
   },
   location: {
     title: "Location Access",
     description: "Allow the app to access your location",
-    icon: <MapPinIcon className="h-12 w-12 text-primary" />,
+    icon: <HugeiconsIcon icon={MapPinSvg} size={48} className="text-primary" />,
   },
   locationForeground: {
     title: "Location Access",
     description: "Allow the app to access your location while using the app",
-    icon: <MapPinIcon className="h-12 w-12 text-primary" />,
+    icon: <HugeiconsIcon icon={MapPinSvg} size={48} className="text-primary" />,
   },
   mediaLibrary: {
     title: "Photo Library Access",
     description: "Allow the app to access your photos and videos",
-    icon: <ImageIcon className="h-12 w-12 text-primary" />,
+    icon: (
+      <HugeiconsIcon icon={Image01Icon} size={48} className="text-primary" />
+    ),
   },
   contacts: {
     title: "Contacts Access",
     description: "Allow the app to access your contacts",
-    icon: <UsersIcon className="h-12 w-12 text-primary" />,
+    icon: <HugeiconsIcon icon={GroupIcon} size={48} className="text-primary" />,
   },
   notifications: {
     title: "Notification Access",
     description: "Allow the app to send you notifications",
-    icon: <BellIcon className="h-12 w-12 text-primary" />,
+    icon: <HugeiconsIcon icon={BellSvg} size={48} className="text-primary" />,
   },
 };
 
@@ -217,7 +214,11 @@ export function PermissionRequester({
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="flex-row items-center justify-center mb-4">
-              <AlertCircleIcon className="h-8 w-8 text-destructive" />
+              <HugeiconsIcon
+                icon={AlertCircleSvg}
+                size={32}
+                className="text-destructive"
+              />
             </DialogTitle>
             <DialogTitle>
               <Text variant="h4" className="text-center">
